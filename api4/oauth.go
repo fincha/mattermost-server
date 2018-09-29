@@ -536,6 +536,12 @@ func completeOAuth(c *Context, w http.ResponseWriter, r *http.Request) {
 		ReturnStatusOK(w)
 		return
 	}
+	
+	cok, cokErr := r.Cookie("APPPATH")
+	if cokErr == nil && service == "office365" {
+		http.Redirect(w, r, cok.Value, http.StatusTemporaryRedirect)
+		return
+	}
 
 	http.Redirect(w, r, redirectUrl, http.StatusTemporaryRedirect)
 }
